@@ -3,21 +3,41 @@ import axios from 'axios';
 
 const Search = () => {
     const [term, setTerm] = useState('');
+    const [results, setResults] = useState([]);
 
+    //Calls API every time term updates
     useEffect(() => {
         const search = async () => {
-            await axios.get('https://en.wikipedia.org/w/api.php?$', {
-                params: {
-                    action: 'query',
-                    list: 'search',
-                    origin: '*',
-                    format: 'json',
-                    srsearch: term
-                }
-            });
+            const {data} = 
+                await axios.get('https://en.wikipedia.org/w/api.php?$', {
+                    params: {
+                        action: 'query',
+                        list: 'search',
+                        origin: '*',
+                        format: 'json',
+                        srsearch: term
+                    }
+                });
+            setResults(data.query.search);
         };
-        search();
+
+        if (term) {
+            search();
+        }
     }, [term]);
+
+    //Injects each result from API call into some JSX
+    const renderedResults = results.map((result) => {
+        return (
+            <div key={result.pageid} className="item">
+                <div className="content">
+                    <div className="header">{result.title}</div>
+                </div>
+                {/*At risk of XSS attack - must trust sender of HTML*/}
+                <span dangerouslySetInnerHTML={{ __html: result.snippet }}></span>
+            </div>
+        );
+    });
 
     return (
         <div>
@@ -31,6 +51,8 @@ const Search = () => {
                     />
                 </div>
             </div>
+
+            <div className="ui celled list">{renderedResults}</div>
         </div>
     );
 };
