@@ -6,14 +6,19 @@ const Dropdown = ({ selected, onSelectedChange, options }) => {
 
     //Listens to clicks outside of dropdown box
     useEffect(() => {
-        document.body.addEventListener("click", 
-            (event) => {
-                if (ref.current.contains(event.target)) {
-                    return;
-                }
-                //Only if click is outside of dropdown box
-                setOpen(false);
-            }, { capture : true });
+        const onBodyClick = (event) => {
+            if (ref.current.contains(event.target)) {
+                return;
+            }
+            //Only if click is outside of dropdown box
+            setOpen(false);
+        };
+
+        document.body.addEventListener("click", onBodyClick, { capture : true });
+
+        return () => {
+            document.body.removeEventListener("click", onBodyClick, { capture : true });
+        };
     }, []);
 
     const renderedOptions = options.map((option) => {
