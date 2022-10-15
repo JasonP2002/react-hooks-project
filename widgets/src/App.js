@@ -4,6 +4,7 @@ import Search from './components/Search';
 import Dropdown from './components/Dropdown';
 import Translate from './components/Translate';
 import Route from './components/Route';
+import Header from './components/Header';
 
 //Hard coded questions
 const accordianItems = [
@@ -23,6 +24,7 @@ export default () => {
 
     return (
         <div> 
+            <Header />
             <Route path="/"><Accordion items={accordianItems}/></Route>
             <Route path="/list"><Search /></Route>
             <Route path="/dropdown"><Dropdown label="Select a Colour" options={options} selected={selected} onSelectedChange={setSelected}/></Route>
