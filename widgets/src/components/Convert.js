@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 //Google translate key required
-const API_KEY = YOUR_KEY_HERE;
+const API_KEY = "YOUR_KEY_HERE";
 
 const Convert = ({ language, text }) => {
     const [translated, setTranslated] = useState('');

@@ -3,6 +3,7 @@ import Accordion from './components/Accordion';
 import Search from './components/Search';
 import Dropdown from './components/Dropdown';
 import Translate from './components/Translate';
+import Route from './components/Route';
 
 //Hard coded questions
 const accordianItems = [
@@ -18,9 +19,14 @@ const options = [
 ];
 
 export default () => {
+    const [selected, setSelected] = useState(options[0]);
+
     return (
-        <div>
-            <Translate />
+        <div> 
+            <Route path="/"><Accordion items={accordianItems}/></Route>
+            <Route path="/list"><Search /></Route>
+            <Route path="/dropdown"><Dropdown label="Select a Colour" options={options} selected={selected} onSelectedChange={setSelected}/></Route>
+            <Route path="/translate"><Translate /></Route>
         </div>
     );
 };
